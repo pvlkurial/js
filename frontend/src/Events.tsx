@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 interface Comp {
   id: number;
-  compName: string;
+  comp_name: string;
 }
 
 const Events: React.FC = () => {
@@ -43,7 +43,7 @@ const Events: React.FC = () => {
                 to={`/event/${event.id}`}
                 className="event-button"
               >
-                {event.compName}
+                {event.comp_name}
               </Link>
             ))}
           </div>

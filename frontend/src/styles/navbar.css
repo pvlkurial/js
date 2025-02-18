@@ -1,53 +1,33 @@
-/* Navbar Styles */
+/* Navbar Container */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #242424;
-    color: white;
-  }
-  
-  /* MatchDumper logo */
-  .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  /* Button container */
-  .navbar-links {
-    display: flex;
-    gap: 15px;
-  }
-  
-  /* Buttons */
-  .nav-button {
-    padding: 10px 20px;
-    text-decoration: none;
-    background-color: #646cff;
-    color: white;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-  }
-  
-  .nav-button:hover {
-    background-color: #535bf2;
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 600px) {
-    .navbar {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .navbar-links {
-      flex-direction: column;
-      margin-top: 10px;
-    }
-    
-    .nav-button {
-      width: 100%;
-    }
-  }
-  
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  background-color: #242424;
+}
+
+/* Button Container */
+.navbar-links {
+  display: flex;
+  gap: 15px;
+}
+
+/* Transparent Buttons */
+.nav-button {
+  padding: 10px 20px;
+  text-decoration: none;
+  background-color: rgba(100, 108, 255, 0.2); /* Semi-transparent */
+  color: white;
+  border-radius: 50px; /* Fully rounded buttons */
+  transition: background 0.3s ease, color 0.3s ease;
+  border: 2px solid rgba(100, 108, 255, 0.5); /* Slight border */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Hover Effect: More Opaque */
+.nav-button:hover {
+  background-color: rgba(100, 108, 255, 0.8);
+  color: #fff;
+}
