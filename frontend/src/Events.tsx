@@ -11,7 +11,6 @@ const Events: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Fetch events from backend
     const fetchEvents = async () => {
       try {
         const response = await fetch("http://localhost:5000/comps");
@@ -28,28 +27,29 @@ const Events: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Events</h1>
+    <div className="flex flex-col items-center p-6">
+      <h1 className="text-3xl font-bold mb-6">Events</h1>
 
       {loading ? (
-        <p>Loading events...</p>
+        <p className="text-lg">Loading events...</p>
       ) : (
-        <div>
-          {/* Display events as buttons */}
-          <div className="event-buttons">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             {events.map((event) => (
               <Link
                 key={event.id}
                 to={`/event/${event.id}`}
-                className="event-button"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition"
               >
                 {event.comp_name}
               </Link>
             ))}
           </div>
 
-          {/* Button to create a new event */}
-          <Link to="/create-event" className="create-event-button">
+          <Link
+            to="/create-event"
+            className="mt-6 px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition"
+          >
             Create New Event
           </Link>
         </div>

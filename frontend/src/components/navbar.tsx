@@ -1,15 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../styles/navbar.css"; // Import the CSS file
+import { NavLink } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-brand"></div>
       <div className="navbar-links">
-        <Link to="/events" className="nav-button">Events</Link>
-        <Link to="/players" className="nav-button">Players</Link>
-        <Link to="/upload" className="nav-button">Upload</Link>
+        <NavLink to="/events" className={({ isActive }) => `nav-button ${isActive ? "active" : ""}`}>
+          Events
+        </NavLink>
+        <NavLink to="/players" className={({ isActive }) => `nav-button ${isActive ? "active" : ""}`}>
+          Players
+        </NavLink>
+        <NavLink to="/upload" className={({ isActive }) => `nav-button ${isActive ? "active" : ""}`}>
+          Upload
+        </NavLink>
       </div>
     </nav>
   );
