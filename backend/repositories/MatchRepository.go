@@ -19,3 +19,9 @@ func (r *MatchRepository) GetMatches() ([]models.Match, error) {
 func (r *MatchRepository) CreateMatch(match *models.Match) error {
 	return r.DB.Create(match).Error
 }
+
+func (r *MatchRepository) GetMatchesByComp(compID string) ([]models.Match, error) {
+	var matches []models.Match
+	result := r.DB.Find(&matches).Joins("comps")
+	return matches, result.Error
+}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./styles/Events.css";
 
 interface Comp {
-  id: number;
+  comp_id: number;
   comp_name: string;
   comp_imageurl: string;
   start_date: string;
@@ -61,7 +61,7 @@ const Events: React.FC = () => {
             <div className="search-dropdown">
               {filteredEvents.length > 0 ? (
                 filteredEvents.slice(0, 5).map((event) => (
-                  <Link key={event.id} to={`/event/${event.id}`} className="search-result">
+                  <Link key={event.comp_id} to={`/event/${event.comp_id}`} className="search-result">
                     {event.comp_name}
                   </Link>
                 ))
@@ -79,7 +79,7 @@ const Events: React.FC = () => {
       ) : (
         <div className="events-grid">
           {filteredEvents.map((event) => (
-            <Link key={event.id} to={`/event/${event.id}`} className="event-box">
+            <Link key={event.comp_id} to={`/event/${event.comp_id}`} className="event-box">
               <img src={event.comp_imageurl} alt={event.comp_name} className="event-image" />
               <div className="event-details">
                 <h2 className="event-name">{event.comp_name}</h2>

@@ -1,0 +1,61 @@
+.matches-container {
+    padding: 24px;
+    background-color: black;
+    color: white;
+    min-height: 100vh;
+  }
+  
+  .matches-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .loading-text {
+    font-size: 1.2rem;
+  }
+  
+  .matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  
+  .match-box {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  .match-box:hover {
+    background-color: #333;
+  }
+  
+  .match-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 16px;
+  }
+  
+  .match-details {
+    flex: 1;
+  }
+  
+  .match-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .match-date,
+  .match-organizer {
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  

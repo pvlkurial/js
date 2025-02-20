@@ -33,9 +33,9 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 			return nil, err
 		}
 
-		// Parsing each column if available default values for missing columns
+		// Parsing each column, setting default values for missing columns
 		timestampStr := parseColumn(record, header, "Time")
-		track := parseColumn(record, header, "Track")
+		trackName := parseColumn(record, header, "Track")
 		playerID := parseColumn(record, header, "PlayerID")
 		playerName := parseColumn(record, header, "PlayerName")
 		recordTime := parseColumn(record, header, "Record")
@@ -53,6 +53,23 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 			pointsInt, _ = strconv.Atoi(points)
 		}
 
+		// Ensure Track exists, create if not found
+		var track models.Track
+		if err := db.Where("track_name = ?", trackName).First(&track).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				track = models.Track{
+					TrackName:     trackName,
+					TrackImageURL: "", // Set a default or fetch from another source if needed
+				}
+				if err := db.Create(&track).Error; err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, err
+			}
+		}
+
+		// Ensure Player exists, create if not found
 		var player models.Player
 		if err := db.Where("player_id = ?", playerID).First(&player).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
@@ -70,15 +87,12 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 
 		stat := models.Stats{
 			Timestamp:   timestamp,
-			Track:       track,
+			Track:       trackName,
 			PlayerID:    playerID,
 			PlayerName:  playerName,
 			Record:      recordTimeInt,
 			RoundNumber: roundNumber,
-		}
-
-		if points != "" {
-			stat.Points = pointsInt
+			Points:      pointsInt,
 		}
 
 		statsList = append(statsList, stat)
