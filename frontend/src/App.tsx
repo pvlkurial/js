@@ -7,6 +7,7 @@ import Navbar from './components/navbar';
 import Home from "./Home";
 import Events from './Events';
 import './index.css'
+import CreateEvent from './CreateEvent';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/upload" element={<UploadCSV/>} />
         <Route path="/events" element={<Events />} />
+        <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/players" element={<PlayersPage/>} />
         <Route path="/player/:playerId" element={<PlayerDetailsPage />} />
         <Route path="/player/:playerId/track/:trackName" element={<TrackPage />} />
