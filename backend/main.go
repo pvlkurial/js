@@ -23,11 +23,10 @@ func main() {
 		port = "5000"
 	}
 
-	dsn := "host=127.0.0.1 user=me password=123 dbname=godb port=5432 sslmode=disable"
+	dsn := "host=localhost user=me password=123 dbname=godb port=5432 sslmode=disable"
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	//db.Migrator().DropTable(&models.Comp{}, &models.Track{})
 
-	db.AutoMigrate(&models.Player{}, &models.Stats{}, &models.Comp{}, &models.Track{})
+	//db.Migrator().DropTable(&models.Player{}, &models.Stats{}, &models.Comp{}, &models.Track{}, &models.Match{})
 
 	// Initialize Repositories
 	playerRepo := &repositories.PlayerRepository{DB: db}
@@ -43,8 +42,10 @@ func main() {
 	PlayerHandler := &handlers.PlayerHandler{PlayerService: playerService}
 	StatsHandler := &handlers.StatsHandler{StatsService: statsService}
 	CompHandler := &handlers.CompHandler{CompService: compService}
-
+	//db.AutoMigrate(&models.Comp{}, &models.Match{}, &models.Team{}, &models.Track{})
+	db.AutoMigrate(&models.Match{}, &models.Track{}, &models.Comp{}, &models.Player{}, &models.Stats{})
 	r := gin.Default()
+	fmt.Println(db.Dialector.Explain("SELECT * FROM comps"))
 
 	// CORS middleware
 	r.Use(func(c *gin.Context) {

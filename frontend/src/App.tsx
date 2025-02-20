@@ -6,7 +6,6 @@ import PlayersPage from './PlayersPage';
 import Navbar from './components/navbar';
 import Home from "./Home";
 import Events from './Events';
-import './index.css'
 import CreateEvent from './CreateEvent';
 
 

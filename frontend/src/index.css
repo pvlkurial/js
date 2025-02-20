@@ -22,10 +22,10 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  width: 98vw;
   height: 100vh; /* Ensure the body takes up full viewport height */
-  display: flex;
-  flex-direction: column; /* Ensure content is stacked vertically */
+  display: flexbox;
+  justify-items: center;
   background-color: #242424;
   color: rgba(255, 255, 255, 0.87);
 }
@@ -76,7 +76,7 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
   height: 400px;
-  width: 80vi;
+  width: 80vw;
   max-width: 1000px; 
   margin-top: 20px;
 }

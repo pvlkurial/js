@@ -1,53 +1,62 @@
-import { useForm, SubmitHandler } from "react-hook-form"
-import { Form } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form";
+import "./styles/CreateEvent.css";
 
-
-
-interface Team {
-  id: number;
-  team_name: string;
-}
-
-type Inputs = {
-  CompName: string;
-  CompURL : string;
-}
+interface Inputs {
+  comp_name: string;
+  comp_imageurl: string;
+};
 
 const CreateEvent = () => {
-  const {
-    register,
-    formState: { errors },
-    control
-  } = useForm()
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm<Inputs>();
+
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    fetch("http://localhost:5000/comps", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to submit");
+        }
+        alert("Your application is updated.");
+      })
+      .catch(() => alert("Submission has failed."));
+  };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <h2 className="text-3xl font-semibold mb-4">Create Event</h2>
+    <div className="create-event-container">
+      <div className="create-event-box">
+        <h2>Create Event</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-group">
+            <input
+              {...register("comp_name", { required: true })}
+              placeholder="Competition Name"
+              className="input-field"
+            />
+            {errors.comp_name && <p className="error-text">This field is required</p>}
+          </div>
 
-      <div>
-        <form action="http://localhost:5000/comps"// Send post request with the FormData
-        // encType={'application/json'} you can also switch to json object
-        onSuccess={() => {
-          alert("Your application is updated.")
-        }}
-        onError={() => {
-          alert("Submission has failed.")
-        }}control={control}>
+          <div className="input-group">
+            <input
+              {...register("comp_imageurl", { required: true })}
+              placeholder="Competition URL"
+              className="input-field"
+            />
+            {errors.comp_imageurl && <p className="error-text">This field is required</p>}
+          </div>
 
-        {/* register your input into the hook by invoking the "register" function */}
-        <input defaultValue="Comp Name" {...register("CompName")} />
-
-        {/* include validation with required or other standard HTML validation rules */}
-        <input {...register("CompURL", { required: true })} />
-        {/* errors will return when field validation fails  */}
-        {errors.CompURL && <span>This field is required</span>}
-
-        <button>Submit</button>
+          <button type="submit" className="submit-button">Submit</button>
         </form>
       </div>
-
-
-      <p className="text-lg text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, ex.</p>
     </div>
   );
 };
