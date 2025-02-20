@@ -25,7 +25,7 @@ const CreateEvent = () => {
       <h2 className="text-3xl font-semibold mb-4">Create Event</h2>
 
       <div>
-        <form action="/localhost:5000/comps" // Send post request with the FormData
+        <form action="http://localhost:5000/comps"// Send post request with the FormData
         // encType={'application/json'} you can also switch to json object
         onSuccess={() => {
           alert("Your application is updated.")
