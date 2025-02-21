@@ -26,12 +26,15 @@ func main() {
 	dsn := "host=localhost user=me password=123 dbname=godb port=5432 sslmode=disable"
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-	//db.Migrator().DropTable(&models.Player{}, &models.Stats{}, &models.Comp{}, &models.Track{}, &models.Match{})
+	//db.Migrator().DropTable(&models.Match{}, &models.Team{})
 
 	// Initialize Repositories
 	playerRepo := &repositories.PlayerRepository{DB: db}
 	compRepo := &repositories.CompRepository{DB: db}
 	statsRepo := &repositories.StatsRepository{DB: db}
+	matchRepo := &repositories.MatchRepository{DB: db}
+	trackRepo := &repositories.TrackRepository{DB: db}
+	teamRepo := &repositories.TeamRepository{DB: db}
 
 	// Initialize Services
 	playerService := &services.PlayerService{PlayerRepo: playerRepo}
@@ -42,6 +45,9 @@ func main() {
 	PlayerHandler := &handlers.PlayerHandler{PlayerService: playerService}
 	StatsHandler := &handlers.StatsHandler{StatsService: statsService}
 	CompHandler := &handlers.CompHandler{CompService: compService}
+	MatchHandler := &handlers.MatchHandler{MatchRepository: matchRepo}
+	TrackHandler := &handlers.TrackHandler{TrackRepository: trackRepo}
+	TeamHandler := &handlers.TeamHandler{TeamRepository: teamRepo}
 	//db.AutoMigrate(&models.Comp{}, &models.Match{}, &models.Team{}, &models.Track{})
 	db.AutoMigrate(&models.Match{}, &models.Track{}, &models.Comp{}, &models.Player{}, &models.Stats{})
 	r := gin.Default()
@@ -69,6 +75,16 @@ func main() {
 
 	r.GET("/comps", CompHandler.GetComps)
 	r.POST("/comps", CompHandler.CreateComp)
+
+	r.GET("/comps/:comp_id/matches", MatchHandler.GetMatchesByComp)
+
+	r.GET("/tracks", TrackHandler.GetTracks)
+	r.POST("/tracks", TrackHandler.CreateTrack)
+
+	r.GET("/teams", TeamHandler.GetTeams)
+	r.POST("/teams", TeamHandler.CreateTeam)
+
+	r.POST("/matches", MatchHandler.CreateMatch)
 
 	r.POST("/stats", StatsHandler.CreateStats)
 	r.GET("/stats/:player_id", StatsHandler.GetStatsByPlayer)

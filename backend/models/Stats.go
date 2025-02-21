@@ -10,4 +10,5 @@ type Stats struct {
 	RoundNumber string `json:"round_number"`
 	Points      int    `json:"points"`
 	CP          int    `json:"cp"`
+	MatchID     uint   `json:"match_id"`
 }

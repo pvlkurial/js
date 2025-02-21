@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
+func ParseCSV(db *gorm.DB, file io.Reader, matchID uint) ([]models.Stats, error) {
 	var statsList []models.Stats
 	reader := csv.NewReader(file)
 
@@ -41,6 +41,7 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 		recordTime := parseColumn(record, header, "Record")
 		roundNumber := parseColumn(record, header, "RoundNumber")
 		points := parseColumn(record, header, "Points")
+		cp := parseColumn(record, header, "CP")
 
 		timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
 		if err != nil {
@@ -48,18 +49,16 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 		}
 
 		recordTimeInt, _ := strconv.Atoi(recordTime)
-		pointsInt := 0
-		if points != "" {
-			pointsInt, _ = strconv.Atoi(points)
-		}
+		pointsInt, _ := strconv.Atoi(points)
+		cpInt, _ := strconv.Atoi(cp)
 
 		// Ensure Track exists, create if not found
 		var track models.Track
 		if err := db.Where("track_name = ?", trackName).First(&track).Error; err != nil {
-			if err == gorm.ErrRecordNotFound {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
 				track = models.Track{
 					TrackName:     trackName,
-					TrackImageURL: "", // Set a default or fetch from another source if needed
+					TrackImageURL: "", // Default or fetch from another source if needed
 				}
 				if err := db.Create(&track).Error; err != nil {
 					return nil, err
@@ -72,7 +71,7 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 		// Ensure Player exists, create if not found
 		var player models.Player
 		if err := db.Where("player_id = ?", playerID).First(&player).Error; err != nil {
-			if err == gorm.ErrRecordNotFound {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
 				player = models.Player{
 					PlayerID:   playerID,
 					PlayerName: playerName,
@@ -93,6 +92,8 @@ func ParseCSV(db *gorm.DB, file io.Reader) ([]models.Stats, error) {
 			Record:      recordTimeInt,
 			RoundNumber: roundNumber,
 			Points:      pointsInt,
+			CP:          cpInt,
+			MatchID:     matchID,
 		}
 
 		statsList = append(statsList, stat)

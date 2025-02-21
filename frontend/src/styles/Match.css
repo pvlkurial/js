@@ -1,6 +1,5 @@
 .matches-container {
     padding: 24px;
-    background-color: black;
     color: white;
     min-height: 100vh;
   }
@@ -18,13 +17,12 @@
   .matches-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
   }
+  
   
   .match-box {
     display: flex;
     align-items: center;
-    background-color: #1e1e1e;
     padding: 16px;
     border-radius: 8px;
     text-decoration: none;
@@ -43,6 +41,13 @@
     border-radius: 8px;
     margin-right: 16px;
   }
+  .match-team-image{
+    width: 80px;
+    height: 80px;
+    object-fit:contain;
+    border-radius: 8px;
+    margin-right: 16px;
+  }
   
   .match-details {
     flex: 1;
@@ -58,4 +63,6 @@
     font-size: 0.9rem;
     color: #bbb;
   }
+  
+  
   
