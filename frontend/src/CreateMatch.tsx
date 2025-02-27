@@ -84,6 +84,7 @@ const CreateMatch: React.FC = () => {
 
     return (
         <div className="create-match-container">
+            <title>Create Match | Match Dumper</title>
             <h1>Create Match</h1>
 
             {errorMessage && <p className="error-message">{errorMessage}</p>}

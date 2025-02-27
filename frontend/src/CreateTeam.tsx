@@ -2,11 +2,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import "./styles/CreateEvent.css";
 
 interface Inputs {
-  comp_name: string;
-  comp_imageurl: string;
+  team_name: string;
+  logo_url: string;
+  description: string;
 };
 
-const CreateEvent = () => {
+const CreateTeam = () => {
 const {
   register,
   handleSubmit,
@@ -15,7 +16,7 @@ const {
 
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    fetch("http://localhost:5000/comps", {
+    fetch("http://localhost:5000/teams", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,26 +34,35 @@ const {
 
   return (
     <div className="create-event-container">
-      <title>Create Event | Match Dumper</title>
+      <title>Create Team | Match Dumper</title>
       <div className="create-event-box">
-        <h2>Create Event</h2>
+        <h2>Create Team</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="input-group">
             <input
-              {...register("comp_name", { required: true })}
-              placeholder="Competition Name"
+              {...register("team_name", { required: true })}
+              placeholder="Team Name"
               className="input-field"
             />
-            {errors.comp_name && <p className="error-text">This field is required</p>}
+            {errors.team_name && <p className="error-text">This field is required</p>}
           </div>
 
           <div className="input-group">
             <input
-              {...register("comp_imageurl", { required: true })}
-              placeholder="Competition URL"
+              {...register("logo_url", { required: true })}
+              placeholder="Team Logo URL"
               className="input-field"
             />
-            {errors.comp_imageurl && <p className="error-text">This field is required</p>}
+            {errors.logo_url && <p className="error-text">This field is required</p>}
+          </div>
+
+          <div className="input-group">
+            <input
+              {...register("description", { required: false })}
+              placeholder="Description"
+              className="input-field"
+            />
+            {errors.description && <p className="error-text">This field is required</p>}
           </div>
 
           <button type="submit" className="submit-button">Submit</button>
@@ -62,4 +72,4 @@ const {
   );
 };
 
-export default CreateEvent;
+export default CreateTeam;

@@ -58,6 +58,7 @@ const Matches: React.FC = () => {
 
   return (
     <div className="matches-container">
+      <title>Matches | Match Dumper</title>
       <div className="events-grid centeringtext">
         <h1 className="events-title">Matches</h1>
         <Link to={`/event/${comp_id}/create-match`} className="event-box centeringtext"> 

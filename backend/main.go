@@ -26,7 +26,7 @@ func main() {
 	dsn := "host=localhost user=me password=123 dbname=godb port=5432 sslmode=disable"
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-	//db.Migrator().DropTable(&models.Match{}, &models.Team{})
+	//db.Migrator().DropTable(&models.Comp{}, &models.Player{}, &models.Track{}, &models.Stats{}, &models.Match{}, &models.Team{})
 
 	// Initialize Repositories
 	playerRepo := &repositories.PlayerRepository{DB: db}
@@ -49,7 +49,7 @@ func main() {
 	TrackHandler := &handlers.TrackHandler{TrackRepository: trackRepo}
 	TeamHandler := &handlers.TeamHandler{TeamRepository: teamRepo}
 	//db.AutoMigrate(&models.Comp{}, &models.Match{}, &models.Team{}, &models.Track{})
-	db.AutoMigrate(&models.Match{}, &models.Track{}, &models.Comp{}, &models.Player{}, &models.Stats{})
+	db.AutoMigrate(&models.Match{}, &models.Track{}, &models.Comp{}, &models.Player{}, &models.Stats{}, &models.Team{})
 	r := gin.Default()
 	fmt.Println(db.Dialector.Explain("SELECT * FROM comps"))
 

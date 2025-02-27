@@ -24,7 +24,7 @@ a:hover {
 body {
   width: 98vw;
   height: 100vh; /* Ensure the body takes up full viewport height */
-  display: flexbox;
+  display:contents;
   justify-items: center;
   background-color: #242424;
   color: rgba(255, 255, 255, 0.87);

@@ -44,6 +44,7 @@ const Events: React.FC = () => {
 
   return (
     <div className="events-container">
+      <title>Events | Match Dumper</title>
       <div className="events-grid centeringtext">
         <h1 className="events-title">Events</h1>
         <Link to="/create-event" className="event-box centeringtext"> Create a new Event
