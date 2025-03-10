@@ -10,6 +10,7 @@ import CreateEvent from './CreateEvent';
 import CompMatches from './CompMatches'
 import CreateMatch from './CreateMatch';
 import CreateTeam from './CreateTeam';
+import MatchTracks from './Match';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/create-team" element={<CreateTeam />} />
+        <Route path="/match/:match_id" element={<MatchTracks />} />
         <Route path="/event/:comp_id" element={<CompMatches />} />
         <Route path="/event/:comp_id/create-match" element={<CreateMatch />} />
         <Route path="/players" element={<PlayersPage/>} />

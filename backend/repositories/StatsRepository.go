@@ -28,3 +28,9 @@ func (r *StatsRepository) GetStatsByPlayerByTrack(playerID string, trackID strin
 			{Column: clause.Column{Name: "round_number"}, Desc: false}}}).Find(&stats)
 	return stats, result.Error
 }
+
+func (r *StatsRepository) GetStats() ([]models.Stats, error) {
+	var stats []models.Stats
+	result := r.DB.Find(&stats)
+	return stats, result.Error
+}

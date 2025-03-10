@@ -58,3 +58,50 @@ func (h *MatchHandler) CreateMatch(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"match_id": match.MatchID})
 }
+
+func (h *MatchHandler) GetTracksByMatchID(c *gin.Context) {
+	matchID, err := strconv.ParseUint(c.Param("match_id"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid match ID"})
+		return
+	}
+
+	matches, err := h.MatchRepository.GetTracksByMatchID(uint(matchID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch tracks of match"})
+		return
+	}
+
+	c.JSON(http.StatusOK, matches)
+}
+
+func (h *MatchHandler) GetStatsByMatchAndTrack(c *gin.Context) {
+	// Parse matchID as uint
+	matchID, err := strconv.ParseUint(c.Param("match_id"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid match ID format"})
+		return
+	}
+
+	// Get trackName directly as string (no need to parse as uint)
+	trackName := c.Param("track_name") // Changed from "TrackName" to "track_name" to match URL convention
+
+	// Get stats from repository
+	stats, err := h.MatchRepository.GetStatsByMatchAndTrack(uint(matchID), trackName)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch stats"})
+		return
+	}
+
+	c.JSON(http.StatusOK, stats)
+}
+
+func (h *MatchHandler) GetMatches(c *gin.Context) {
+	matches, err := h.MatchRepository.GetMatches()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch matches"})
+		return
+	}
+
+	c.JSON(http.StatusOK, matches)
+}

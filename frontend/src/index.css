@@ -22,9 +22,6 @@ a:hover {
 }
 
 body {
-  width: 98vw;
-  height: 100vh; /* Ensure the body takes up full viewport height */
-  display:contents;
   justify-items: center;
   background-color: #242424;
   color: rgba(255, 255, 255, 0.87);
@@ -59,7 +56,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #dedede;
   }
   
   a:hover {
@@ -72,11 +69,55 @@ button:focus-visible {
 }
 
 .chart-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 60%;
   height: 400px;
-  width: 80vw;
-  max-width: 1000px; 
   margin-top: 20px;
+}
+
+.player-stats-container {
+  width: 35%;
+  margin-left: 5%;
+  margin-top: 20px;
+}
+.chart-container {
+  width: 60%;
+  height: 400px;
+  margin-top: 20px;
+}
+
+.player-stats-container {
+  width: 35%;
+  margin-left: 5%;
+  margin-top: 20px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.flex-container-buttons {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  width: 80%;
+
+}
+
+.button-graph{
+  background-color: #4d56ffd6;
+  flex: none;
+  padding: 5px;
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+.button-graph-disabled{
+  background-color: #5849ff61;
+  flex: none;
+  padding: 5px;
+  align-self: flex-start;
+  cursor: pointer;
 }

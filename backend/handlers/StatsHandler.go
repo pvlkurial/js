@@ -49,3 +49,13 @@ func (h *StatsHandler) GetStatsByPlayerByTrack(c *gin.Context) {
 	c.JSON(http.StatusOK, stats)
 
 }
+
+func (h *StatsHandler) GetStats(c *gin.Context) {
+	stats, err := h.StatsService.StatsRepo.GetStats()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch stats of player"})
+		return
+	}
+	c.JSON(http.StatusOK, stats)
+
+}

@@ -33,7 +33,6 @@ func ParseCSV(db *gorm.DB, file io.Reader, matchID uint) ([]models.Stats, error)
 			return nil, err
 		}
 
-		// Parsing each column, setting default values for missing columns
 		timestampStr := parseColumn(record, header, "Time")
 		trackName := parseColumn(record, header, "Track")
 		playerID := parseColumn(record, header, "PlayerID")
@@ -64,6 +63,16 @@ func ParseCSV(db *gorm.DB, file io.Reader, matchID uint) ([]models.Stats, error)
 					return nil, err
 				}
 			} else {
+				return nil, err
+			}
+		}
+
+		// Ensure Match-Track relationship exists
+		var count int64
+		db.Table("track_match").Where("match_id = ? AND track_name = ?", matchID, trackName).Count(&count)
+		if count == 0 {
+			err := db.Exec("INSERT INTO track_match (match_id, track_name) VALUES (?, ?)", matchID, trackName).Error
+			if err != nil {
 				return nil, err
 			}
 		}
