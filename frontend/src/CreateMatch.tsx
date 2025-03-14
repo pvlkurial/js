@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import "./styles/CreateMatch.css";
 
 interface Team {
     team_id: number;

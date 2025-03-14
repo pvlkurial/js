@@ -16,7 +16,6 @@ import MatchTracks from './Match';
 function App() {
   return (
     <Router>
-      <Navbar />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/upload" element={<UploadCSV/>} />

@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./styles/Match.css";
+import { AppSidebar } from "@/components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { Search } from "lucide-react";
+import { SearchForm } from "./components/search-form";
 
 interface Team {
   team_id: number;
@@ -57,14 +73,32 @@ const Matches: React.FC = () => {
   };
 
   return (
-    <div className="matches-container">
-      <title>Matches | Match Dumper</title>
-      <div className="events-grid centeringtext">
-        <h1 className="events-title">Matches</h1>
-        <Link to={`/event/${comp_id}/create-match`} className="event-box centeringtext"> 
+        <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                  <div className="flex items-center gap-2 px-4">
+                    <SidebarTrigger className="-ml-1" />
+                    <Separator orientation="vertical" className="mr-2 h-4" />
+                    <Breadcrumb>
+                      <BreadcrumbList>
+                        <BreadcrumbItem className="hidden md:block">
+                          <BreadcrumbLink href="events">
+                            Events
+                          </BreadcrumbLink>
+                        </BreadcrumbItem>
+                      </BreadcrumbList>
+                    </Breadcrumb>
+                  </div>
+                </header>
+          <title>Matches | Match Dumper</title>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 items-stretch">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3 content-evenly">
+        <h1 className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5">Matches</h1>
+        <Link to={`/event/${comp_id}/create-match`} className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5 hover:bg-muted/100"> 
           Create a new Match 
         </Link>
-        <div className="search-box-wrapper">
+        <div className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5">
           <div className="search-box">
             <input
               type="text"
@@ -73,20 +107,6 @@ const Matches: React.FC = () => {
               onChange={handleSearch}
               className="search-input"
             />
-            {searchTerm && (
-              <div className="search-dropdown">
-                {filteredMatches.length > 0 ? (
-                  filteredMatches.slice(0, 5).map((match) => (
-                    <Link key={match.match_id} to={`/match/${match.match_id}`} className="search-result">
-                      {match.teams?.map((team) => team.team_name).join(" vs ") || "Unknown Teams"} - 
-                      {match.tracks?.[0]?.track_name || "Unknown Track"}
-                    </Link>
-                  ))
-                ) : (
-                  <p className="search-no-results">No results found</p>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -117,6 +137,8 @@ const Matches: React.FC = () => {
         </div>
       )}
     </div>
+        </SidebarInset>
+        </SidebarProvider>
   );
 };
 

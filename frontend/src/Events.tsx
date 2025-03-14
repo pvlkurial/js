@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./styles/Events.css";
+import { AppSidebar } from "@/components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { Search } from "lucide-react";
+import { SearchForm } from "./components/search-form";
 
 interface Comp {
   comp_id: number;
@@ -43,55 +59,77 @@ const Events: React.FC = () => {
   };
 
   return (
-    <div className="events-container">
+    <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+              <div className="flex items-center gap-2 px-4">
+                <SidebarTrigger className="-ml-1" />
+                <Separator orientation="vertical" className="mr-2 h-4" />
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem className="hidden md:block">
+                      <BreadcrumbLink href="events">
+                        Events
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+            </header>
       <title>Events | Match Dumper</title>
-      <div className="events-grid centeringtext">
-        <h1 className="events-title">Events</h1>
-        <Link to="/create-event" className="event-box centeringtext"> Create a new Event
-        </Link>
-        <div className="search-box-wrapper">
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search events..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="search-input"
-          />
-          {searchTerm && (
-            <div className="search-dropdown">
-              {filteredEvents.length > 0 ? (
-                filteredEvents.slice(0, 5).map((event) => (
-                  <Link key={event.comp_id} to={`/event/${event.comp_id}`} className="search-result">
-                    {event.comp_name}
-                  </Link>
-                ))
-              ) : (
-                <p className="search-no-results">No results found</p>
-              )}
-            </div>
-          )}
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 items-stretch">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3 content-evenly">
+        <div className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5">
+          <div className="">
+            <input
+              type="text"
+              placeholder="Search events..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="search-input"
+            />
+            
+          </div>
         </div>
-      </div>
+          <div className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5 hover:bg-muted/100">
+            <Link to="/create-event" className="event-box text-center"> Create a new Event
+            </Link>
+          </div>
+        <div className="rounded-xl bg-muted/50 flex justify-center items-center h-full p-5">
+          <h1 className="text-center">Date picker</h1>
+        </div>
+
       </div>
 
       {loading ? (
         <p className="loading-text">Loading events...</p>
       ) : (
-        <div className="events-grid">
-          {filteredEvents.map((event) => (
-            <Link key={event.comp_id} to={`/event/${event.comp_id}`} className="event-box">
-              <img src={event.comp_imageurl} alt={event.comp_name} className="event-image" />
-              <div className="event-details">
-                <h2 className="event-name">{event.comp_name}</h2>
-                <p className="event-date">📅 {event.start_date} - {event.end_date}</p>
-                <p className="event-organizer">👤 {event.organizer}</p>
-              </div>
-            </Link>
-          ))}
+
+
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+           <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3  ">
+
+
+              {filteredEvents.map((event) => (
+                <Link key={event.comp_id} to={`/event/${event.comp_id}`} className="relative aspect-video rounded-xl 
+                flex justify-center items-center h-full overflow-hidden group z-99">
+                  <img src={event.comp_imageurl} alt={event.comp_name} className=" z-0 object-fill w-full group-hover:blur-[3px] transition duration-200 ease-in" />
+                  <div className="font-bold text-white text-center absolute opacity-75 z-40 left-0 right-0 px-4 py-2
+                                  group-hover:opacity-100 transition duration-300 group-hover:drop-shadow-lg">
+                    <h2 className="z-10 text-4xl ">{event.comp_name}</h2>
+                    <p className="z-10 text-xl">date {event.start_date} - {event.end_date}</p>
+                    <p className="z-10 text-xl">orga {event.organizer}</p>
+                  </div>
+                </Link>
+              ))}
+
+          </div>
         </div>
       )}
     </div>
+    </SidebarInset>
+    </SidebarProvider>
   );
 };
 
